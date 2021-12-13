@@ -3,23 +3,18 @@ import api from "../utils/Api.js";
 import Card from "./Card.js";
 
 function Main(props) {
-
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
 
-  api.getUserInfo().then((data) => {
-    setUserName(data.name);
-    setUserDescription(data.about);
-    setUserAvatar(data.avatar);
-  });
-
   React.useEffect(() => {
-    api
-      .getCards()
-      .then((data) => {
-        setCards(data);
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userData, cardsData]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setCards(cardsData);
       })
       .catch((err) => {
         console.log(err);
@@ -29,11 +24,7 @@ function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <img
-          className="profile__avatar"
-          src={userAvatar}
-          alt="аватар"
-        />
+        <img className="profile__avatar" src={userAvatar} alt="аватар" />
         <div
           className="profile__hidden-avatar"
           onClick={props.onEditAvatar}

@@ -1,7 +1,9 @@
 function ImagePopup(props) {
+  
+const card = Boolean(JSON.stringify(props.card) ==='{}');
 
     return(
-        <div className={`popup popup_type_image ${props.card.link !== "" && "popup_opened"}`}>
+        <div className={`popup popup_type_image ${!card && "popup_opened"}`}>
         <figure
           className="popup__container popup__container-for-image"
           tabIndex="0"

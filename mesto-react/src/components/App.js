@@ -12,7 +12,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState({name: "", link: ""});
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -20,24 +20,21 @@ function App() {
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
-    //document.querySelector('.popup_type_edit-profile').classList.add('popup_opened');
   }
 
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
-    //document.querySelector('.popup_type_creat-element').classList.add('popup_opened');
   }
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
-    //document.querySelector('.popup_type_edit-avatar').classList.add('popup_opened');
   }
 
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard({name: "", link: ""});
+    setSelectedCard({});
   }
 
   return (
@@ -61,6 +58,7 @@ function App() {
               type="text"
               className="form__input form__input_type_name"
               id="profile-input-name"
+              placeholder="Введите имя"
               minLength="2"
               maxLength="40"
               required
@@ -73,6 +71,7 @@ function App() {
               type="text"
               className="form__input form__input_type_profession"
               id="profile-input-profession"
+              placeholder="Коротко о себе"
               minLength="2"
               maxLength="200"
               required
