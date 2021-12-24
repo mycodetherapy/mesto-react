@@ -34,6 +34,25 @@ function Main(props) {
       });
   }, []);
 
+  console.log();
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === userData._id);
+    let methodFetchLike = (isLiked ? "DELETE" : "PUT");
+
+    api.toggleLike(methodFetchLike, card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+  }
+
+  function handleCardDelete(card) {
+    api.removeCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id && c ));
+    })
+  }
+
+  console.log(cards);
+
   return (
     <main className="content">
       <section className="profile">
@@ -69,6 +88,8 @@ function Main(props) {
               likes={card.likes}
               card={card}
               onCardClick={props.onCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           ))}
         </ul>

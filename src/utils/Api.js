@@ -41,7 +41,7 @@ const configApi = {
     }).then(this._onError);
   };
 
-  addTasks = (data) => {
+  addCard = (data) => {
     return fetch(`${this._url}cards`, {
       method: "POST",
       headers: this._headers,
@@ -49,7 +49,7 @@ const configApi = {
     }).then(this._onError);
   };
 
-  removeTasks = (dataId) => {
+  removeCard = (dataId) => {
     return fetch(`${this._url}cards/${dataId}`, {
       method: "DELETE",
       headers: this._headers,
