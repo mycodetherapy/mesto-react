@@ -18,7 +18,7 @@ function EditProfilePopup(props) {
     props.onUpdateUser({
       name,
       about: description,
-    });
+    }, "setUserInfo");
   }
 
   return (

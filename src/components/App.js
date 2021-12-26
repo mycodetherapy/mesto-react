@@ -7,6 +7,7 @@ import api from "../utils/Api.js";
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup"
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -51,9 +52,9 @@ function App() {
     setSelectedCard({});
   };
 
-  function handleUpdateUser(oldUserData) {
-    api.setUserInfo(oldUserData).then((newUserData) => {
-      setcurrentUser(newUserData);
+  function handleUpdateUserInfo(inputUserData, methodApi) {
+    api[methodApi](inputUserData).then((outputUserData) => {
+      setcurrentUser(outputUserData);
       closeAllPopups();
     })
   }
@@ -73,7 +74,7 @@ function App() {
 
           <Footer />
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUserInfo} /> 
 
           <PopupWithForm
             name="creat-element"
@@ -107,24 +108,7 @@ function App() {
             </label>
           </PopupWithForm>
 
-          <PopupWithForm
-            name="edit-avatar"
-            title="Обновить аватар"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          >
-            <label className="form__field">
-              <input
-                name="avatar"
-                type="url"
-                className="form__input form__input_type_avatar"
-                placeholder="Ссылка на аватар"
-                id="profile-input-avatar"
-                required
-              />
-              <span className="form__input-error profile-input-avatar-error"></span>
-            </label>
-          </PopupWithForm>
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateUserInfo} />
 
           <PopupWithForm name="delete-element" title="Вы уверены?">
             <button className="form__button-save" type="submit">
