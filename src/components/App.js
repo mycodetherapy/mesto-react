@@ -6,6 +6,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/Api.js";
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -21,12 +22,11 @@ function App() {
       .getUserInfo()
       .then((userData) => {
         setcurrentUser(userData);
-        // console.log(userData);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, {});
+  }, []);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -51,6 +51,13 @@ function App() {
     setSelectedCard({});
   };
 
+  function handleUpdateUser(oldUserData) {
+    api.setUserInfo(oldUserData).then((newUserData) => {
+      setcurrentUser(newUserData);
+      closeAllPopups();
+    })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <body className="common">
@@ -66,39 +73,7 @@ function App() {
 
           <Footer />
 
-          <PopupWithForm
-            name="edit-profile"
-            title="Редактировать профиль"
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-          >
-            <label className="form__field">
-              <input
-                name="name"
-                type="text"
-                className="form__input form__input_type_name"
-                id="profile-input-name"
-                placeholder="Введите имя"
-                minLength="2"
-                maxLength="40"
-                required
-              />
-              <span className="form__input-error profile-input-name-error"></span>
-            </label>
-            <label className="form__field">
-              <input
-                name="about"
-                type="text"
-                className="form__input form__input_type_profession"
-                id="profile-input-profession"
-                placeholder="Коротко о себе"
-                minLength="2"
-                maxLength="200"
-                required
-              />
-              <span className="form__input-error profile-input-profession-error"></span>
-            </label>
-          </PopupWithForm>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
 
           <PopupWithForm
             name="creat-element"

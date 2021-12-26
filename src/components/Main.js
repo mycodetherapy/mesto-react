@@ -4,25 +4,10 @@ import Card from "./Card.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  // const [userName, setUserName] = React.useState("");
-  // const [userDescription, setUserDescription] = React.useState("");
-  // const [userAvatar, setUserAvatar] = React.useState("");
+  
   const [cards, setCards] = React.useState([]);
 
   const userData = React.useContext(CurrentUserContext)
-
-  // React.useEffect(() => {
-  //   Promise.all([api.getUserInfo(), api.getCards()])
-  //     .then(([userData, cardsData]) => {
-  //       setUserName(userData.name);
-  //       setUserDescription(userData.about);
-  //       setUserAvatar(userData.avatar);
-  //       setCards(cardsData);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   React.useEffect(() => {
     Promise.all([api.getCards()])
@@ -33,8 +18,6 @@ function Main(props) {
         console.log(err);
       });
   }, []);
-
-  console.log();
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === userData._id);
@@ -50,8 +33,6 @@ function Main(props) {
       setCards((state) => state.filter((c) => c._id !== card._id && c ));
     })
   }
-
-  console.log(cards);
 
   return (
     <main className="content">
