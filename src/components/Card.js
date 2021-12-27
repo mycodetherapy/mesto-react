@@ -2,7 +2,6 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import React from "react";
 
 function Card(props) {
-  //console.log(props.owner._id);
   const userData = React.useContext(CurrentUserContext);
   const isOwn = Boolean(props.card.owner._id === userData._id);
   const elementDeleteClassName = `element__delete ${
@@ -27,8 +26,6 @@ function Card(props) {
     props.onCardDelete(props.card);
   }
 
-  // console.log(props.card.owner._id);
-  // console.log(isOwn);
   return (
     <li className="element">
       <button className={elementDeleteClassName} onClick={handleDeleteClick}></button>

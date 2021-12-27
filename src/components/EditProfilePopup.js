@@ -3,8 +3,8 @@ import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
-  const [name, setName] = React.useState();
-  const [description, setDescription] = React.useState();
+  const [name, setName] = React.useState(null);
+  const [description, setDescription] = React.useState(null);
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
@@ -35,7 +35,7 @@ function EditProfilePopup(props) {
           type="text"
           className="form__input form__input_type_name"
           id="profile-input-name"
-          placeholder="Введите имя"
+          placeholder={currentUser !== {} ? currentUser.name : "Введите имя"}
           minLength="2"
           maxLength="40"
           required
@@ -49,7 +49,7 @@ function EditProfilePopup(props) {
           type="text"
           className="form__input form__input_type_profession"
           id="profile-input-profession"
-          placeholder="Коротко о себе"
+          placeholder={currentUser !== {} ? currentUser.about : "Коротко осебе"}
           minLength="2"
           maxLength="200"
           required

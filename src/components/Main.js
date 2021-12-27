@@ -1,38 +1,10 @@
 import React from "react";
-import api from "../utils/Api.js";
 import Card from "./Card.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  
-  const [cards, setCards] = React.useState([]);
 
-  const userData = React.useContext(CurrentUserContext)
-
-  React.useEffect(() => {
-    Promise.all([api.getCards()])
-      .then(([cardsData]) => {
-        setCards(cardsData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === userData._id);
-    let methodFetchLike = (isLiked ? "DELETE" : "PUT");
-
-    api.toggleLike(methodFetchLike, card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    })
-  }
-
-  function handleCardDelete(card) {
-    api.removeCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id && c ));
-    })
-  }
+  const userData = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
@@ -61,7 +33,7 @@ function Main(props) {
 
       <section className="elements">
         <ul className="elements__grid-container">
-          {cards.map((card) => (
+          {props.cards.map((card) => (
             <Card
               key={card._id}
               name={card.name}
@@ -69,8 +41,8 @@ function Main(props) {
               likes={card.likes}
               card={card}
               onCardClick={props.onCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete}
             />
           ))}
         </ul>
