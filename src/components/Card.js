@@ -22,13 +22,16 @@ function Card(props) {
     props.onCardLike(props.card);
   }
 
-  function handleDeleteClick () {
+  function handleDeleteClick() {
     props.onCardDelete(props.card);
   }
 
   return (
     <li className="element">
-      <button className={elementDeleteClassName} onClick={handleDeleteClick}></button>
+      <button
+        className={elementDeleteClassName}
+        onClick={handleDeleteClick}
+      ></button>
       <div className="element__image-container">
         <img
           className="element__image"
