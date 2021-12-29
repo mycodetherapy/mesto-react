@@ -3,7 +3,7 @@ import React from "react";
 
 function Card(props) {
   const userData = React.useContext(CurrentUserContext);
-  const isOwn = Boolean(props.card.owner._id === userData._id);
+  const isOwn = props.card.owner._id === userData._id;
   const elementDeleteClassName = `element__delete ${
     isOwn ? "element__delete_visible" : "element__delete_hidden"
   }`;
