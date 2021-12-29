@@ -1,21 +1,34 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup(props) {
-    const [name, setName] = React.useState(null);
-    const [link, setLink] = React.useState(null);
+function AddPlacePopup({onAddPlace, isOpen, onClose}) {
+    const [name, setName] = React.useState("");
+    const [link, setLink] = React.useState("");
+    
+    function handleNameChange(e) {
+      setName(e.target.value);
+    }
+
+    function handleLinkChange(e) {
+      setLink(e.target.value);
+    }
 
     function handleAddPlaceSubmit(e) {
         e.preventDefault();
-        props.onAddPlace({name, link});
+        onAddPlace({name, link});
     }
+
+    React.useEffect(() => {
+        setName("");
+        setLink(""); 
+     }, [isOpen]);
 
     return(
         <PopupWithForm
             name="creat-element"
             title="Новое место"
-            isOpen={props.isOpen}
-            onClose={props.onClose}
+            isOpen={isOpen}
+            onClose={onClose}
             onSubmit={handleAddPlaceSubmit}
           >
             <label className="form__field">
@@ -28,7 +41,8 @@ function AddPlacePopup(props) {
                 minLength="2"
                 maxLength="30"
                 required
-                onChange={e => setName(e.target.value)}
+                onChange={handleNameChange}
+                value={name}
               />
               <span className="form__input-error input-place-error"></span>
             </label>
@@ -40,7 +54,8 @@ function AddPlacePopup(props) {
                 placeholder="Ссылка на картинку"
                 id="input-place-link"
                 required
-                onChange={e => setLink(e.target.value)}
+                onChange={handleLinkChange}
+                value={link}
               />
               <span className="form__input-error input-place-link-error"></span>
             </label>
