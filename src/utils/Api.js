@@ -1,4 +1,4 @@
-import { configApi } from "./Constants"
+import { configApi } from "./constants"
 
  class Api {
   constructor(config) {
