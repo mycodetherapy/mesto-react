@@ -36,7 +36,7 @@ function App() {
       });
   }, []);
 
-  function handleCardLike(card) {
+  const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     let methodFetchLike = isLiked ? "DELETE" : "PUT";
     api
@@ -49,9 +49,9 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  function handleCardDelete() {
+  const handleCardDelete = () => {
     api
       .removeCard(currentCard._id)
       .then(() => {
@@ -63,7 +63,30 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
+
+  const handleUpdateUserInfo = (inputUserData, methodApi) => {
+    api[methodApi](inputUserData)
+      .then((outputUserData) => {
+        setCurrentUser(outputUserData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSubmitAddPlace = (inputCard) => {
+    api
+      .addCard(inputCard)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -93,29 +116,6 @@ function App() {
     setIsDeleteCardPopupOpen(false);
     setSelectedCard({});
   };
-
-  function handleUpdateUserInfo(inputUserData, methodApi) {
-    api[methodApi](inputUserData)
-      .then((outputUserData) => {
-        setCurrentUser(outputUserData);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function handleSubmitAddPlace(inputCard) {
-    api
-      .addCard(inputCard)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
